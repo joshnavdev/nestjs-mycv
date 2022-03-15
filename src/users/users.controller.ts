@@ -17,12 +17,13 @@ import { CurrentUser } from './decorators/current-user.decorator';
 import { CreateUserDto } from './dts/create-user.dto';
 import { UpdateUserDto } from './dts/update-user.dto';
 import { UserDto } from './dts/user.dto';
-// import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
 @Controller('auth')
 @Serialize(UserDto)
+@UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
   constructor(
     private usersService: UsersService,
@@ -35,10 +36,8 @@ export class UsersController {
   // }
 
   @Get('/whoami')
-  whoAmi() {
-    console.log('joshua');
-
-    return '';
+  whoAmi(@CurrentUser() user: User) {
+    return user;
   }
 
   @Post('/signout')
