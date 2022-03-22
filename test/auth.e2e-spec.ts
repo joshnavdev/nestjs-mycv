@@ -15,7 +15,13 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer()).get('/').expect(200).expect('Hello World!');
+  it('/auth/signup (POST)', async () => {
+    const defaultEmail = 'jsdjakalalskdj@asd.com';
+    const res = await request(app.getHttpServer()).post('/auth/signup').send({ email: defaultEmail, password: 'asdf' });
+
+    expect(res.status).toBe(201);
+    const { id, email } = res.body;
+    expect(id).toBeDefined();
+    expect(email).toEqual(defaultEmail);
   });
 });

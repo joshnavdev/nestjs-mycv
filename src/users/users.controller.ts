@@ -11,8 +11,8 @@ import {
   Session,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { AuthGuard } from '../guards/auth.guard';
+import { Serialize } from '..//interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { CreateUserDto } from './dts/create-user.dto';
@@ -24,15 +24,7 @@ import { UsersService } from './users.service';
 @Controller('auth')
 @Serialize(UserDto)
 export class UsersController {
-  constructor(
-    private usersService: UsersService,
-    private authService: AuthService,
-  ) {}
-
-  // @Get('/whoami')
-  // whoAmi(@Session() session: any) {
-  // return this.usersService.findOne(session.userId);
-  // }
+  constructor(private usersService: UsersService, private authService: AuthService) {}
 
   @Get('/whoami')
   @UseGuards(AuthGuard)
